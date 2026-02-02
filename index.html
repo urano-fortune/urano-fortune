@@ -11,7 +11,6 @@
       --bg-green: radial-gradient(circle at top, #0f6b5f, #063b35);
       --gold-gradient: linear-gradient(135deg, #f5e18b 0%, #d4af37 50%, #b8860b 100%);
       --accent-gold: #d4af37;
-      /* 回答ボックス用の白系背景 */
       --box-white: rgba(255, 255, 255, 0.98); 
     }
 
@@ -20,15 +19,16 @@
       min-height: 100vh;
       font-family: 'Shippori Mincho', serif;
       background: var(--bg-green);
-      color: #333; /* 文字色は白背景で見やすいように暗めに */
+      color: #333;
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow-x: hidden;
+      overflow-y: auto; /* 長文に対応 */
+      padding: 40px 0;
     }
 
     #particle-container {
-      position: absolute;
+      position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       z-index: 0;
       pointer-events: none;
@@ -36,20 +36,17 @@
 
     .container {
       width: 92%;
-      max-width: 500px;
+      max-width: 550px;
       z-index: 1;
-      padding: 20px 0;
     }
 
-    /* ヘッダーエリア（ここは白背景の外なので文字は白のまま） */
     .header-area {
       text-align: center;
       margin-bottom: 25px;
     }
 
     .header-area img {
-      max-width: 160px;
-      height: auto;
+      max-width: 150px;
       margin-bottom: 10px;
       filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
     }
@@ -60,7 +57,7 @@
       background: var(--gold-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
       font-weight: 700;
     }
 
@@ -71,9 +68,9 @@
       letter-spacing: 0.2em;
     }
 
-    /* --- 回答ボックス：白背景 ＋ ゴールドフレーム --- */
+    /* 回答・結果ボックス */
     .outer-frame {
-      padding: 4px; /* フレームの太さ */
+      padding: 4px;
       background: var(--gold-gradient);
       border-radius: 20px;
       box-shadow: 0 15px 45px rgba(0,0,0,0.4);
@@ -82,35 +79,31 @@
     .inner-content {
       background: var(--box-white);
       border-radius: 16px;
-      padding: 40px 25px;
+      padding: 45px 30px;
       text-align: center;
-      min-height: 320px;
+      min-height: 350px;
       display: flex;
       flex-direction: column;
-      /* 縁の内側に細いラインを入れてより豪華に */
       border: 1px solid rgba(212, 175, 55, 0.2);
     }
 
     .progress-wrapper {
       background: #eee;
-      height: 4px;
+      height: 3px;
       border-radius: 10px;
       margin-bottom: 40px;
-      overflow: hidden;
     }
     .progress-bar {
-      height: 100%;
-      width: 0%;
+      height: 100%; width: 0%;
       background: var(--gold-gradient);
       transition: width 0.6s ease;
     }
 
     #question {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       line-height: 1.8;
-      margin-bottom: 45px;
-      color: #2c4a44; /* 深緑系の濃い文字色 */
-      font-weight: 500;
+      margin-bottom: 50px;
+      color: #2c4a44;
     }
 
     .btn-group {
@@ -122,50 +115,55 @@
 
     .btn {
       width: 130px;
-      padding: 14px 0;
+      padding: 15px 0;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: inherit;
       border-radius: 50px;
+      font-family: inherit;
+      transition: 0.3s;
     }
 
-    /* YES: 豪華な金ボタン */
     .btn-yes {
       background: var(--gold-gradient);
       color: #fff;
       border: none;
       box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    }
-    .btn-yes:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.05);
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
     }
 
-    /* NO: 落ち着いたグレー/ゴールド枠 */
     .btn-no {
       background: #fff;
       color: #999;
       border: 1px solid #ddd;
     }
-    .btn-no:hover {
-      border-color: var(--accent-gold);
-      color: var(--accent-gold);
-      background: rgba(212, 175, 55, 0.05);
-    }
 
+    /* --- 結果表示の装飾 --- */
     .result-display {
       display: none;
-      font-size: 1.05rem;
-      line-height: 2;
-      color: #2c4a44;
-      animation: fadeIn 0.8s ease forwards;
+      text-align: left; /* 説明文は読みやすく左寄せ */
+      animation: fadeIn 1s ease forwards;
     }
 
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .result-theme {
+      display: block;
+      font-size: 1.4rem;
+      color: #b8860b;
+      text-align: center;
+      margin-bottom: 25px;
+      line-height: 1.5;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      padding-bottom: 15px;
+    }
+
+    .result-desc {
+      font-size: 1rem;
+      line-height: 2;
+      color: #444;
+      white-space: pre-wrap; /* 改行を有効に */
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -181,21 +179,21 @@
 
     <div class="outer-frame">
       <div class="inner-content">
-        
         <div id="quiz-ui">
           <div class="progress-wrapper">
             <div class="progress-bar" id="progressBar"></div>
           </div>
-          
           <h2 id="question"></h2>
-
           <div class="btn-group">
             <button class="btn btn-yes" onclick="next(true)">YES</button>
             <button class="btn btn-no" onclick="next(false)">NO</button>
           </div>
         </div>
 
-        <div class="result-display" id="resultDisplay"></div>
+        <div class="result-display" id="resultDisplay">
+          <span class="result-theme" id="resultTheme"></span>
+          <p class="result-desc" id="resultDesc"></p>
+        </div>
       </div>
     </div>
   </div>
@@ -205,13 +203,11 @@
     const pContainer = document.getElementById('particle-container');
     for (let i = 0; i < 40; i++) {
       const p = document.createElement('div');
-      p.style.position = 'absolute';
-      p.style.background = '#fff';
-      p.style.borderRadius = '50%';
+      p.className = 'star';
+      p.style.position = 'absolute'; p.style.background = '#fff'; p.style.borderRadius = '50%';
       const size = (Math.random() * 2 + 1) + 'px';
       p.style.width = size; p.style.height = size;
-      p.style.left = Math.random() * 100 + '%';
-      p.style.top = Math.random() * 100 + '%';
+      p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%';
       p.style.opacity = Math.random() * 0.4;
       pContainer.appendChild(p);
     }
@@ -229,6 +225,34 @@
       "今も心のどこかで繋がっていると思いますか？"
     ];
 
+    // 診断結果データ
+    const results = [
+      {
+        theme: "① あなたとあの人のご縁は、天に守られています",
+        desc: "あなたとあの人を結ぶご縁は、偶然ではなく、見えない大きな流れの中で丁寧に紡がれてきたものです。\nたとえ今、距離や不安を感じる瞬間があったとしても、そのご縁自体が失われることはありません。\n天はすでにこの関係を見守り、必要な学びと気づきを与えながら、最善の形へと導こうとしています。"
+      },
+      {
+        theme: "② 焦らず、今の関係を大切に育んでください",
+        desc: "今は答えを急ぐ時ではなく、目の前にある関係性そのものを大切に感じることが求められています。\n小さなやり取り、何気ない言葉、ふとした安心感――それら一つ一つが、未来の土台となります。\n焦らず、比べず、今この瞬間を慈しむことが、やがて大きな信頼へとつながっていくでしょう。"
+      },
+      {
+        theme: "③ 今は自分を愛することで、運命が好転します",
+        desc: "この時期に最も大切なのは、相手をどうにかしようとすることではなく、あなた自身を深く労わることです。\n自分の感情を否定せず、頑張ってきた心を認めてあげることで、あなたの内側の波動が整っていきます。\n自分を愛する選択を重ねるほど、運命の流れは自然と好転し、必要なご縁は引き寄せられていくでしょう。"
+      },
+      {
+        theme: "④ このご縁は、過去から続く意味あるつながりです",
+        desc: "あなたとあの人の関係は、今世だけの偶然の出会いではなく、過去から続く深い意味を持ったご縁です。\nどこか懐かしさを感じたり、理由はわからないのに強く心が惹かれるのは、その魂の記憶によるもの。\n今この関係に迷いが生じているとしても、それは終わりではなく、より深い理解へ進むための通過点なのです。"
+      },
+      {
+        theme: "⑤ 今は心を整えることで、未来の扉が開きます",
+        desc: "状況を無理に動かそうとしなくても、あなたの心が整った瞬間から、現実は少しずつ変わり始めます。\n不安や期待に振り回されるのではなく、「今の自分は何を感じているのか」に静かに耳を澄ませてみてください。\n心が落ち着いたとき、あなたにとって本当に必要なご縁と未来が、自然と姿を現してくれるでしょう。"
+      },
+      {
+        theme: "⑥ この先、穏やかな愛へと形を変えていく兆しがあります",
+        desc: "このご縁は、激しさや不安定さを超えて、より穏やかで安心できる愛へと変化していく兆しがあります。\n今すぐに答えが出なくても、時間をかけて信頼を育てることで、心から安らげる関係へと近づいていくでしょう。\nあなたが無理をせず、自分らしくいられること――それこそが、この恋が長く続くための鍵となります。"
+      }
+    ];
+
     let currentIdx = 0;
     let yesScore = 0;
 
@@ -236,6 +260,8 @@
     const bar = document.getElementById("progressBar");
     const quizUI = document.getElementById("quiz-ui");
     const resEl = document.getElementById("resultDisplay");
+    const resTheme = document.getElementById("resultTheme");
+    const resDesc = document.getElementById("resultDesc");
 
     function render() {
       qEl.textContent = questions[currentIdx];
@@ -252,11 +278,18 @@
     function finish() {
       bar.style.width = "100%";
       quizUI.style.display = "none";
-      let msg = "";
-      if (yesScore >= 8) msg = "<strong>【宿命の絆】</strong><br>あなたとあの人のご縁は、天に守られています。";
-      else if (yesScore >= 5) msg = "<strong>【育まれる愛】</strong><br>焦らず、今の関係を大切に育んでください。";
-      else msg = "<strong>【新しい光】</strong><br>今は自分を愛することで、運命が好転します。";
-      resEl.innerHTML = msg;
+      
+      // スコアに応じて結果を振り分け（10問中、YESの数で判定）
+      let resultData;
+      if (yesScore >= 9) resultData = results[0];      // ①
+      else if (yesScore >= 7) resultData = results[1]; // ②
+      else if (yesScore >= 5) resultData = results[3]; // ④
+      else if (yesScore >= 3) resultData = results[5]; // ⑥
+      else if (yesScore >= 1) resultData = results[4]; // ⑤
+      else resultData = results[2];                    // ③
+
+      resTheme.textContent = resultData.theme;
+      resDesc.textContent = resultData.desc;
       resEl.style.display = "block";
     }
 
