@@ -11,6 +11,7 @@
       --bg-green: radial-gradient(circle at top, #0f6b5f, #063b35);
       --gold-gradient: linear-gradient(135deg, #f5e18b 0%, #d4af37 50%, #b8860b 100%);
       --accent-gold: #d4af37;
+      --text-white: #ffffff;
     }
 
     body {
@@ -18,14 +19,13 @@
       min-height: 100vh;
       font-family: 'Shippori Mincho', serif;
       background: var(--bg-green);
-      color: #fff;
+      color: var(--text-white);
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
-    /* 背景のキラキラ */
     #particle-container {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -37,107 +37,133 @@
       width: 90%;
       max-width: 550px;
       z-index: 1;
+      padding: 20px 0;
     }
 
-    /* タイトルセクション */
+    /* ロゴ・タイトルエリア */
     .header-area {
       text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
+    }
+
+    .header-area img {
+      max-width: 180px; /* ロゴのサイズ調整 */
+      height: auto;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
     }
 
     .main-title {
-      font-size: 28px;
+      font-size: 26px;
       margin: 0;
       background: var(--gold-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.1em;
       font-weight: 700;
     }
 
     .sub-title {
-      font-size: 14px;
-      margin-top: 8px;
+      font-size: 13px;
+      margin-top: 10px;
       color: var(--accent-gold);
-      letter-spacing: 0.3em;
+      letter-spacing: 0.2em;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 15px;
     }
     .sub-title::before, .sub-title::after {
       content: "";
       height: 1px;
-      width: 30px;
+      width: 20px;
       background: var(--accent-gold);
-      display: inline-block;
+      opacity: 0.6;
     }
 
-    /* カードデザイン */
+    /* メインカード */
     .outer-frame {
-      padding: 1px; /* 極細のゴールドライン */
-      background: var(--gold-gradient);
+      padding: 1px;
+      background: rgba(212, 175, 55, 0.4);
       border-radius: 20px;
-      box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     }
 
     .inner-content {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(15px);
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-radius: 19px;
-      padding: 40px 30px;
+      padding: 45px 30px;
       text-align: center;
-      min-height: 380px;
+      min-height: 350px;
       display: flex;
       flex-direction: column;
     }
 
-    /* プログレスバー */
     .progress-wrapper {
       background: rgba(255, 255, 255, 0.1);
-      height: 4px;
+      height: 3px;
       border-radius: 10px;
-      margin-bottom: 40px;
+      margin-bottom: 45px;
       overflow: hidden;
     }
     .progress-bar {
       height: 100%;
       width: 0%;
       background: var(--gold-gradient);
+      box-shadow: 0 0 10px var(--accent-gold);
       transition: width 0.6s ease;
     }
 
     #question {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       line-height: 1.8;
-      margin-bottom: 40px;
-      color: #fff;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      margin-bottom: 50px;
+      text-shadow: 0 2px 15px rgba(0,0,0,0.5);
     }
 
+    /* YES / NO ボタンの差別化 */
     .btn-group {
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 25px;
       margin-top: auto;
     }
 
-    .gold-btn {
-      width: 120px;
-      padding: 14px 0;
+    .btn {
+      width: 140px;
+      padding: 15px 0;
       font-size: 16px;
-      border: 1px solid var(--accent-gold);
-      border-radius: 4px; /* あえて少し角を残すとクラシックな高級感が出ます */
-      background: transparent;
-      color: var(--accent-gold);
+      font-weight: bold;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-family: inherit;
+      letter-spacing: 0.1em;
     }
 
-    .gold-btn:hover {
+    /* YES: ゴールドの塗りつぶしで「進む」イメージ */
+    .btn-yes {
       background: var(--gold-gradient);
       color: #063b35;
+      border: none;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    .btn-yes:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+    }
+
+    /* NO: 枠線のみで「控えめ」なイメージ */
+    .btn-no {
+      background: transparent;
+      color: var(--accent-gold);
+      border: 1px solid var(--accent-gold);
+      border-radius: 30px;
+    }
+    .btn-no:hover {
+      background: rgba(212, 175, 55, 0.1);
       transform: translateY(-2px);
     }
 
@@ -148,7 +174,7 @@
       animation: fadeIn 1s ease forwards;
     }
 
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -157,6 +183,7 @@
 
   <div class="container">
     <div class="header-area">
+      <img src="images/logo.png" alt="占いロゴ">
       <h1 class="main-title">星屑の恋愛占い</h1>
       <div class="sub-title">真実の縁を結ぶ</div>
     </div>
@@ -172,8 +199,8 @@
           <h2 id="question"></h2>
 
           <div class="btn-group">
-            <button class="gold-btn" onclick="next(true)">YES</button>
-            <button class="gold-btn" onclick="next(false)">NO</button>
+            <button class="btn btn-yes" onclick="next(true)">YES</button>
+            <button class="btn btn-no" onclick="next(false)">NO</button>
           </div>
         </div>
 
@@ -183,18 +210,18 @@
   </div>
 
   <script>
-    // 背景パーティクル（星屑）の生成
+    // 背景の星屑生成
     const pContainer = document.getElementById('particle-container');
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 40; i++) {
       const p = document.createElement('div');
       p.style.position = 'absolute';
-      p.style.background = 'white';
+      p.style.background = '#fff';
       p.style.borderRadius = '50%';
-      const size = Math.random() * 2 + 'px';
+      const size = (Math.random() * 2 + 1) + 'px';
       p.style.width = size; p.style.height = size;
       p.style.left = Math.random() * 100 + '%';
       p.style.top = Math.random() * 100 + '%';
-      p.style.opacity = Math.random();
+      p.style.opacity = Math.random() * 0.5;
       pContainer.appendChild(p);
     }
 
@@ -234,7 +261,10 @@
     function finish() {
       bar.style.width = "100%";
       quizUI.style.display = "none";
-      let msg = yesScore >= 8 ? "【宿命の絆】<br>あなたとあの人のご縁は、天に守られています。" : "【新しい風】<br>今は自分を大切にする時期。素晴らしい未来が待っています。";
+      let msg = "";
+      if (yesScore >= 8) msg = "【宿命の絆】<br>あなたとあの人のご縁は、天に守られています。";
+      else if (yesScore >= 5) msg = "【育まれる愛】<br>焦らず、今の関係を大切に育んでください。";
+      else msg = "【新しい光】<br>今は自分を愛することで、運命が好転します。";
       resEl.innerHTML = msg;
       resEl.style.display = "block";
     }
