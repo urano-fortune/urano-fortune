@@ -2,136 +2,162 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>やさしいYES / NO占い</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>やさしいYES / NO占い｜urano</title>
 
   <style>
     body {
-      font-family: "Hiragino Kaku Gothic ProN", sans-serif;
-      background: #f7f6f3;
-      color: #444;
-      text-align: center;
-      padding: 20px;
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #1fa89b, #0b5f55 70%);
+      font-family: "Hiragino Mincho ProN", "Noto Serif JP", serif;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 620px;
+      margin: 40px auto;
+      padding: 40px 30px;
+      background: #0f7f73;
+      border-radius: 24px;
+      border: 3px solid #d4af37;
+      box-shadow: 0 0 30px rgba(212,175,55,0.4);
+    }
+
+    .logo {
+      width: 260px;
+      display: block;
+      margin: 0 auto 25px;
     }
 
     h1 {
-      margin-bottom: 20px;
-    }
-
-    /* 進捗バー */
-    .progress-container {
-      width: 100%;
-      max-width: 400px;
-      height: 10px;
-      background: #ddd;
-      border-radius: 10px;
-      margin: 0 auto 30px;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: #a3c4bc;
-      transition: width 0.3s ease;
+      text-align: center;
+      color: #f5e6b3;
+      letter-spacing: 0.12em;
+      margin-bottom: 30px;
     }
 
     #question {
       font-size: 18px;
-      margin-bottom: 30px;
-      min-height: 3em;
+      line-height: 1.8;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin: 25px 0;
     }
 
     button {
-      padding: 12px 30px;
-      margin: 10px;
+      width: 48%;
+      padding: 14px;
+      border-radius: 30px;
       font-size: 16px;
       border: none;
-      border-radius: 25px;
       cursor: pointer;
-      background: #a3c4bc;
-      color: #fff;
     }
 
-    button:hover {
-      opacity: 0.9;
+    button.yes {
+      background: linear-gradient(#f3d98c, #d4af37);
+      color: #3b2a00;
+    }
+
+    button.no {
+      background: #1e8f7d;
+      color: #fff;
+      border: 1px solid #d4af37;
+    }
+
+    #progress-container {
+      background: rgba(255,255,255,0.25);
+      height: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #f5e6b3, #d4af37);
     }
 
     #result {
-      margin-top: 40px;
+      margin-top: 30px;
       font-size: 17px;
-      line-height: 1.8;
+      line-height: 1.9;
+      text-align: center;
+      color: #fff;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      text-align: center;
+      opacity: 0.85;
     }
   </style>
 </head>
 
 <body>
+  <div class="container">
 
-  <h1>やさしいYES / NO占い</h1>
+    <!-- ロゴ（画像は images/urano-logo.png をアップロードしてね） -->
+    <img src="images/urano-logo.png" alt="urano 恋愛相談ウラーノ" class="logo">
 
-  <!-- 進捗バー -->
-  <div class="progress-container">
-    <div class="progress-bar" id="progressBar"></div>
+    <h1>やさしいYES / NO占い</h1>
+
+    <p id="question"></p>
+
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+
+    <div class="buttons">
+      <button class="yes" onclick="answer(true)">YES</button>
+      <button class="no" onclick="answer(false)">NO</button>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="footer">
+      心を静かにして、直感でお選びください。
+    </div>
+
   </div>
-
-  <!-- 質問 -->
-  <div id="question"></div>
-
-  <!-- ボタン -->
-  <div id="buttons">
-    <button onclick="answer(true)">YES</button>
-    <button onclick="answer(false)">NO</button>
-  </div>
-
-  <!-- 結果 -->
-  <div id="result"></div>
 
   <script>
     const questions = [
-      "最近、心が少し疲れていると感じますか？",
-      "無理をして頑張りすぎていませんか？",
-      "誰かに頼りたい気持ちがありますか？",
-      "今の状況を変えたいと思っていますか？",
-      "自分の気持ちを後回しにしていませんか？",
-      "本当は休みたいと思っていますか？",
-      "迷いが続いている感覚はありますか？",
-      "少し立ち止まる時間が必要だと感じますか？",
-      "心の声を聞けていない気がしますか？",
-      "優しく背中を押してほしいですか？"
+      "今、あなたの心は少し疲れていると感じますか？",
+      "誰かに本音を打ち明けたい気持ちはありますか？",
+      "過去の出来事が、まだ心に残っていますか？",
+      "未来に対して、不安よりも希望を感じたいですか？",
+      "大切な人との関係を、もう一度見つめ直したいですか？",
+      "最近、自分を後回しにしていると感じますか？",
+      "変わりたいという気持ちは、心の中にありますか？",
+      "今の選択が、正しいのか迷っていますか？",
+      "誰かの言葉に、救われたいと思っていますか？",
+      "この占いの結果を、静かに受け取る準備はできていますか？"
     ];
 
-    const results = [
-      "今のあなたは、とても安定した状態にあります。大きく迷う必要はありません。このままのペースを大切にして大丈夫です。",
-      "少し疲れが溜まっているようです。無理をせず、自分にやさしくする時間を意識してみてください。",
-      "心が変化を求めています。小さな一歩で構いません。気になる方向へ、少しだけ踏み出してみましょう。",
-      "今は立ち止まることも必要な時期です。休むことは後退ではなく、次のための準備です。",
-      "大きな転機が近づいています。あなたの選択は間違っていません。自信を持って進んでください。"
-    ];
-
-    let currentQuestion = 0;
-    let score = 0;
+    let current = 0;
+    let yesCount = 0;
 
     const questionEl = document.getElementById("question");
+    const progressBar = document.getElementById("progress-bar");
     const resultEl = document.getElementById("result");
-    const progressBar = document.getElementById("progressBar");
-    const buttonsEl = document.getElementById("buttons");
 
     function showQuestion() {
-      questionEl.textContent = questions[currentQuestion];
-      updateProgress();
-    }
-
-    function updateProgress() {
-      const progress = (currentQuestion / questions.length) * 100;
-      progressBar.style.width = progress + "%";
+      questionEl.innerText = questions[current];
+      progressBar.style.width = ((current / questions.length) * 100) + "%";
     }
 
     function answer(isYes) {
-      if (isYes) score++;
+      if (isYes) yesCount++;
+      current++;
 
-      currentQuestion++;
-
-      if (currentQuestion < questions.length) {
+      if (current < questions.length) {
         showQuestion();
       } else {
         showResult();
@@ -139,29 +165,24 @@
     }
 
     function showResult() {
-      buttonsEl.style.display = "none";
-      questionEl.style.display = "none";
       progressBar.style.width = "100%";
+      questionEl.style.display = "none";
+      document.querySelector(".buttons").style.display = "none";
 
-      let resultText = "";
+      let message = "";
 
-      if (score <= 2) {
-        resultText = results[0];
-      } else if (score <= 4) {
-        resultText = results[1];
-      } else if (score <= 6) {
-        resultText = results[2];
-      } else if (score <= 8) {
-        resultText = results[3];
+      if (yesCount >= 8) {
+        message = "あなたの心は今、前向きな流れの中にあります。<br>直感を信じて進んで大丈夫です。";
+      } else if (yesCount >= 5) {
+        message = "迷いはありますが、答えはすでに心の中にあります。<br>焦らず、自分のペースで進みましょう。";
       } else {
-        resultText = results[4];
+        message = "今は無理に答えを出さなくて大丈夫。<br>心を休めることも、大切な選択です。";
       }
 
-      resultEl.innerHTML = "🔮 鑑定結果<br><br>" + resultText;
+      resultEl.innerHTML = message;
     }
 
     showQuestion();
   </script>
-
 </body>
 </html>
