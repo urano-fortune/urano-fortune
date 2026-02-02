@@ -1,129 +1,181 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>YES / NO 占い</title>
+  <meta charset="UTF-8" />
+  <title>やさしい恋愛占い</title>
 
   <style>
     body {
       margin: 0;
       font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
-      background: radial-gradient(circle at top, #1b8c78, #0b3f35);
+      background: radial-gradient(circle at top, #0f6b5f, #063b35);
       color: #fff;
       text-align: center;
     }
 
     .container {
-      max-width: 720px;
+      max-width: 600px;
       margin: 0 auto;
       padding: 40px 20px;
     }
 
-    .logo {
-      width: 220px;
-      margin: 0 auto 30px;
+    /* ロゴ */
+    .logo img {
+      max-width: 260px;
+      margin-bottom: 30px;
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.08);
-      border: 2px solid #d4af37;
-      border-radius: 16px;
+    /* ゴールドフレーム */
+    .frame {
+      border: 3px solid #d4af37;
+      border-radius: 20px;
       padding: 30px 20px;
-      box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 0 20px rgba(212,175,55,0.3);
+    }
+
+    /* 進捗バー */
+    .progress {
+      height: 10px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 25px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f5e18b, #d4af37);
+      transition: width 0.4s ease;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
 
     button {
-      margin: 15px;
-      padding: 14px 36px;
-      font-size: 18px;
+      width: 120px;
+      padding: 12px 0;
+      font-size: 16px;
       border-radius: 30px;
       border: 2px solid #d4af37;
       background: transparent;
-      color: #d4af37;
+      color: #fff;
       cursor: pointer;
     }
 
     button:hover {
       background: #d4af37;
-      color: #0b3f35;
+      color: #063b35;
+    }
+
+    /* 結果 */
+    .result {
+      display: none;
+      line-height: 1.8;
+      font-size: 16px;
     }
   </style>
 </head>
 
-
 <body>
   <div class="container">
 
-    <!-- ロゴ画像 -->
-    <img src="images/logo.png" class="logo" alt="logo">
-
-    <!-- 進捗バー -->
-    <div class="progress">
-      <div class="progress-bar" id="progressBar"></div>
+    <!-- ロゴ -->
+    <div class="logo">
+      <img src="images/logo.png" alt="urano">
     </div>
 
-    <!-- 質問 -->
-    <h2 id="question"></h2>
+    <div class="frame">
 
-    <!-- ボタン -->
-    <button class="yes" onclick="answer(true)">YES</button>
-    <button class="no" onclick="answer(false)">NO</button>
+      <!-- 進捗バー -->
+      <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
 
-    <!-- 結果 -->
-    <div id="result"></div>
+      <!-- 質問 -->
+      <h2 id="question"></h2>
+
+      <!-- YES / NO -->
+      <div class="buttons" id="buttons">
+        <button onclick="answer(true)">YES</button>
+        <button onclick="answer(false)">NO</button>
+      </div>
+
+      <!-- 結果 -->
+      <div class="result" id="result"></div>
+
+    </div>
   </div>
 
   <script>
     const questions = [
-      "今の選択に迷いはありますか？",
-      "直感を信じたいと思っていますか？",
-      "変化を恐れていませんか？",
-      "誰かの意見に影響されていますか？",
-      "本当は答えを知っている気がしますか？",
-      "心が少し疲れていますか？",
-      "今は待つより動く時期だと思いますか？",
-      "この選択で後悔しない自信はありますか？",
-      "未来は明るいと感じますか？",
-      "最後は自分で決めたいですか？"
+      "最近、あの人のことを考える時間が増えましたか？",
+      "連絡が来ると少し期待してしまいますか？",
+      "本音を伝えられずにいると感じますか？",
+      "相手の気持ちが気になって眠れない夜はありますか？",
+      "自分ばかり想っている気がしますか？",
+      "それでも、関係を信じたい気持ちはありますか？",
+      "未来の話をしたことがありますか？",
+      "小さな優しさに救われたことはありますか？",
+      "このご縁は意味があると感じますか？",
+      "今も心のどこかで繋がっていると思いますか？"
     ];
 
-    let index = 0;
+    let current = 0;
     let yesCount = 0;
 
     const questionEl = document.getElementById("question");
-    const resultEl = document.getElementById("result");
     const progressBar = document.getElementById("progressBar");
+    const buttons = document.getElementById("buttons");
+    const resultEl = document.getElementById("result");
 
     function showQuestion() {
-      questionEl.textContent = questions[index];
-      progressBar.style.width = ((index) / questions.length) * 100 + "%";
+      questionEl.textContent = questions[current];
+      progressBar.style.width = ((current / questions.length) * 100) + "%";
     }
 
     function answer(isYes) {
       if (isYes) yesCount++;
-      index++;
+      current++;
 
-      if (index < questions.length) {
+      if (current < questions.length) {
         showQuestion();
       } else {
-        progressBar.style.width = "100%";
         showResult();
       }
     }
 
     function showResult() {
-      let message = "";
+      progressBar.style.width = "100%";
+      questionEl.style.display = "none";
+      buttons.style.display = "none";
 
-      if (yesCount >= 7) {
-        message = "🌟 YESが多め。前向きに進んで大丈夫！";
+      let text = "";
+
+      if (yesCount >= 8) {
+        text = "あなたとあの人のご縁は、とても深く強いものです。迷いながらも、心はすでに同じ方向を向いています。";
+      } else if (yesCount >= 6) {
+        text = "この恋は、ゆっくりと育っていくご縁。焦らず、信じることで道は開かれていくでしょう。";
       } else if (yesCount >= 4) {
-        message = "🌙 少し迷いがあるみたい。焦らなくてOK。";
+        text = "想いは確かにあります。ただ今は、タイミングを待つことが大切な時期かもしれません。";
+      } else if (yesCount >= 2) {
+        text = "不安が先立ちやすい状態です。まずはあなた自身の心を満たすことから始めましょう。";
       } else {
-        message = "🛑 今は立ち止まるタイミングかも。";
+        text = "今は手放すことで、新しい流れが入ってくる暗示。ご縁は形を変えて続いていきます。";
       }
 
-      questionEl.textContent = "診断結果";
-      resultEl.textContent = message;
+      resultEl.textContent = text;
+      resultEl.style.display = "block";
     }
 
     showQuestion();
