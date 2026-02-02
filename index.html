@@ -23,7 +23,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow-y: auto; /* 長文に対応 */
+      overflow-y: auto;
       padding: 40px 0;
     }
 
@@ -68,7 +68,7 @@
       letter-spacing: 0.2em;
     }
 
-    /* 回答・結果ボックス */
+    /* ボックス構造 */
     .outer-frame {
       padding: 4px;
       background: var(--gold-gradient);
@@ -124,43 +124,110 @@
       transition: 0.3s;
     }
 
-    .btn-yes {
-      background: var(--gold-gradient);
-      color: #fff;
-      border: none;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-    }
+    .btn-yes { background: var(--gold-gradient); color: #fff; border: none; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
+    .btn-no { background: #fff; color: #999; border: 1px solid #ddd; }
 
-    .btn-no {
-      background: #fff;
-      color: #999;
-      border: 1px solid #ddd;
-    }
-
-    /* --- 結果表示の装飾 --- */
+    /* 結果表示 */
     .result-display {
       display: none;
-      text-align: left; /* 説明文は読みやすく左寄せ */
+      text-align: left;
       animation: fadeIn 1s ease forwards;
     }
 
     .result-theme {
       display: block;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       color: #b8860b;
       text-align: center;
       margin-bottom: 25px;
       line-height: 1.5;
       font-weight: 700;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
       padding-bottom: 15px;
     }
 
     .result-desc {
-      font-size: 1rem;
-      line-height: 2;
+      font-size: 0.95rem;
+      line-height: 1.8;
       color: #444;
-      white-space: pre-wrap; /* 改行を有効に */
+      white-space: pre-wrap;
+      margin-bottom: 30px;
+    }
+
+    /* 先生紹介セクション */
+    .divider {
+      border: none;
+      border-top: 1px dashed var(--accent-gold);
+      margin: 30px 0;
+    }
+
+    .expert-section {
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .expert-title {
+      font-size: 0.9rem;
+      color: #b8860b;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .expert-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: #fdfaf0;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .expert-photo img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-gold);
+      object-fit: cover;
+    }
+
+    .expert-info {
+      text-align: left;
+    }
+
+    .expert-name {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #2c4a44;
+      font-weight: 700;
+    }
+
+    .expert-caption {
+      margin: 5px 0 0;
+      font-size: 0.8rem;
+      color: #777;
+    }
+
+    .consult-btn {
+      display: block;
+      width: 100%;
+      padding: 18px 0;
+      background: var(--gold-gradient);
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .consult-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
     }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -193,22 +260,37 @@
         <div class="result-display" id="resultDisplay">
           <span class="result-theme" id="resultTheme"></span>
           <p class="result-desc" id="resultDesc"></p>
+          
+          <hr class="divider">
+
+          <div class="expert-section">
+            <p class="expert-title">あなたにオススメの先生はこちら</p>
+            <div class="expert-card">
+              <div class="expert-photo">
+                <img src="images/華月さん (3).jpg" alt="華月先生">
+              </div>
+              <div class="expert-info">
+                <h3 class="expert-name">華月 先生</h3>
+                <p class="expert-caption">深層心理を読み解き、二人の未来を繋ぎます</p>
+              </div>
+            </div>
+            <a href="#" class="consult-btn">華月先生に今すぐ相談する</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // 背景の星屑生成
+    // 背景演出
     const pContainer = document.getElementById('particle-container');
     for (let i = 0; i < 40; i++) {
       const p = document.createElement('div');
-      p.className = 'star';
       p.style.position = 'absolute'; p.style.background = '#fff'; p.style.borderRadius = '50%';
       const size = (Math.random() * 2 + 1) + 'px';
       p.style.width = size; p.style.height = size;
       p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%';
-      p.style.opacity = Math.random() * 0.4;
+      p.style.opacity = Math.random() * 0.3;
       pContainer.appendChild(p);
     }
 
@@ -225,32 +307,13 @@
       "今も心のどこかで繋がっていると思いますか？"
     ];
 
-    // 診断結果データ
     const results = [
-      {
-        theme: "① あなたとあの人のご縁は、天に守られています",
-        desc: "あなたとあの人を結ぶご縁は、偶然ではなく、見えない大きな流れの中で丁寧に紡がれてきたものです。\nたとえ今、距離や不安を感じる瞬間があったとしても、そのご縁自体が失われることはありません。\n天はすでにこの関係を見守り、必要な学びと気づきを与えながら、最善の形へと導こうとしています。"
-      },
-      {
-        theme: "② 焦らず、今の関係を大切に育んでください",
-        desc: "今は答えを急ぐ時ではなく、目の前にある関係性そのものを大切に感じることが求められています。\n小さなやり取り、何気ない言葉、ふとした安心感――それら一つ一つが、未来の土台となります。\n焦らず、比べず、今この瞬間を慈しむことが、やがて大きな信頼へとつながっていくでしょう。"
-      },
-      {
-        theme: "③ 今は自分を愛することで、運命が好転します",
-        desc: "この時期に最も大切なのは、相手をどうにかしようとすることではなく、あなた自身を深く労わることです。\n自分の感情を否定せず、頑張ってきた心を認めてあげることで、あなたの内側の波動が整っていきます。\n自分を愛する選択を重ねるほど、運命の流れは自然と好転し、必要なご縁は引き寄せられていくでしょう。"
-      },
-      {
-        theme: "④ このご縁は、過去から続く意味あるつながりです",
-        desc: "あなたとあの人の関係は、今世だけの偶然の出会いではなく、過去から続く深い意味を持ったご縁です。\nどこか懐かしさを感じたり、理由はわからないのに強く心が惹かれるのは、その魂の記憶によるもの。\n今この関係に迷いが生じているとしても、それは終わりではなく、より深い理解へ進むための通過点なのです。"
-      },
-      {
-        theme: "⑤ 今は心を整えることで、未来の扉が開きます",
-        desc: "状況を無理に動かそうとしなくても、あなたの心が整った瞬間から、現実は少しずつ変わり始めます。\n不安や期待に振り回されるのではなく、「今の自分は何を感じているのか」に静かに耳を澄ませてみてください。\n心が落ち着いたとき、あなたにとって本当に必要なご縁と未来が、自然と姿を現してくれるでしょう。"
-      },
-      {
-        theme: "⑥ この先、穏やかな愛へと形を変えていく兆しがあります",
-        desc: "このご縁は、激しさや不安定さを超えて、より穏やかで安心できる愛へと変化していく兆しがあります。\n今すぐに答えが出なくても、時間をかけて信頼を育てることで、心から安らげる関係へと近づいていくでしょう。\nあなたが無理をせず、自分らしくいられること――それこそが、この恋が長く続くための鍵となります。"
-      }
+      { theme: "① あなたとあの人のご縁は、天に守られています", desc: "あなたとあの人を結ぶご縁は、偶然ではなく、見えない大きな流れの中で丁寧に紡がれてきたものです。\nたとえ今、距離や不安を感じる瞬間があったとしても、そのご縁自体が失われることはありません。\n天はすでにこの関係を見守り、必要な学びと気づきを与えながら、最善の形へと導こうとしています。" },
+      { theme: "② 焦らず、今の関係を大切に育んでください", desc: "今は答えを急ぐ時ではなく、目の前にある関係性そのものを大切に感じることが求められています。\n小さなやり取り、何気ない言葉、ふとした安心感――それら一つ一つが、未来の土台となります。\n焦らず、比べず、今この瞬間を慈しむことが、やがて大きな信頼へとつながっていくでしょう。" },
+      { theme: "③ 今は自分を愛することで、運命が好転します", desc: "この時期に最も大切なのは、相手をどうにかしようとすることではなく、あなた自身を深く労わることです。\n自分の感情を否定せず、頑張ってきた心を認めてあげることで、あなたの内側の波動が整っていきます。\n自分を愛する選択を重ねるほど、運命の流れは自然と好転し、必要なご縁は引き寄せられていくでしょう。" },
+      { theme: "④ このご縁は、過去から続く意味あるつながりです", desc: "あなたとあの人の関係は、今世だけの偶然の出会いではなく、過去から続く深い意味を持ったご縁です。\nどこか懐かしさを感じたり、理由はわからないのに強く心が惹かれるのは、その魂の記憶によるもの。\n今この関係に迷いが生じているとしても、それは終わりではなく、より深い理解へ進むための通過点なのです。" },
+      { theme: "⑤ 今は心を整えることで、未来の扉が開きます", desc: "状況を無理に動かそうとしなくても、あなたの心が整った瞬間から、現実は少しずつ変わり始めます。\n不安や期待に振り回されるのではなく、「今の自分は何を感じているのか」に静かに耳を澄ませてみてください。\n心が落ち着いたとき、あなたにとって本当に必要なご縁と未来が、自然と姿を現してくれるでしょう。" },
+      { theme: "⑥ この先、穏やかな愛へと形を変えていく兆しがあります", desc: "このご縁は、激しさや不安定さを超えて、より穏やかで安心できる愛へと変化していく兆しがあります。\n今すぐに答えが出なくても、時間をかけて信頼を育てることで、心から安らげる関係へと近づいていくでしょう。\nあなたが無理をせず、自分らしくいられること――それこそが、この恋が長く続くための鍵となります。" }
     ];
 
     let currentIdx = 0;
@@ -278,18 +341,15 @@
     function finish() {
       bar.style.width = "100%";
       quizUI.style.display = "none";
-      
-      // スコアに応じて結果を振り分け（10問中、YESの数で判定）
-      let resultData;
-      if (yesScore >= 9) resultData = results[0];      // ①
-      else if (yesScore >= 7) resultData = results[1]; // ②
-      else if (yesScore >= 5) resultData = results[3]; // ④
-      else if (yesScore >= 3) resultData = results[5]; // ⑥
-      else if (yesScore >= 1) resultData = results[4]; // ⑤
-      else resultData = results[2];                    // ③
-
-      resTheme.textContent = resultData.theme;
-      resDesc.textContent = resultData.desc;
+      let res;
+      if (yesScore >= 9) res = results[0];
+      else if (yesScore >= 7) res = results[1];
+      else if (yesScore >= 5) res = results[3];
+      else if (yesScore >= 3) res = results[5];
+      else if (yesScore >= 1) res = results[4];
+      else res = results[2];
+      resTheme.textContent = res.theme;
+      resDesc.textContent = res.desc;
       resEl.style.display = "block";
     }
 
