@@ -21,10 +21,8 @@
     }
 
     #particle-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-
     .container { width: 92%; max-width: 500px; z-index: 1; }
 
-    /* --- 回答ボックス --- */
     .outer-frame {
       padding: 4px; background: var(--gold-gradient); border-radius: 20px;
       box-shadow: 0 15px 45px rgba(0,0,0,0.4);
@@ -33,15 +31,14 @@
     .inner-content {
       background: var(--box-white); border-radius: 16px; padding: 35px 25px;
       text-align: center; border: 1px solid rgba(212, 175, 55, 0.2);
-      min-height: 380px; display: flex; flex-direction: column; justify-content: center;
+      min-height: 400px; display: flex; flex-direction: column; justify-content: center;
     }
 
-    /* --- ヘッダー（イントロ共通） --- */
+    /* イントロ・共通ヘッダー */
     .logo-img { max-width: 140px; margin-bottom: 15px; }
     .main-title { font-size: 22px; margin: 0; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; letter-spacing: 0.1em; }
     .sub-title { font-size: 11px; margin-top: 8px; color: #888; letter-spacing: 0.2em; font-weight: bold; }
 
-    /* --- イントロ画面 --- */
     .intro-text { font-size: 0.95rem; line-height: 2; color: #444; margin: 30px 0; }
     .start-btn { 
       padding: 16px 40px; background: var(--gold-gradient); color: #fff; 
@@ -49,56 +46,37 @@
       font-size: 1.1rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); 
       transition: 0.3s; font-family: inherit;
     }
-    .start-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-    /* --- クイズUI（初期は非表示） --- */
+    /* クイズUI */
     #quiz-ui, #result-display { display: none; }
-
     .q-counter { font-size: 11px; color: var(--accent-gold); margin-bottom: 10px; font-weight: bold; }
     #question { font-size: 1.1rem; line-height: 1.7; color: #2c4a44; margin: 20px 0 35px; min-height: 3.4em; display: flex; align-items: center; justify-content: center; }
-
     .progress-wrapper { background: #eee; height: 3px; border-radius: 10px; margin-bottom: 25px; }
     .progress-bar { height: 100%; width: 0%; background: var(--gold-gradient); transition: 0.6s; }
-
     .btn-group { display: flex; justify-content: center; gap: 20px; }
     .btn { width: 120px; padding: 14px 0; border-radius: 50px; font-weight: bold; cursor: pointer; font-family: inherit; transition: 0.3s; }
-    .btn-yes { background: var(--gold-gradient); color: #fff; border: none; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+    .btn-yes { background: var(--gold-gradient); color: #fff; border: none; }
     .btn-no { background: #fff; color: #999; border: 1px solid #ddd; }
 
-/* 追加：オススメの先生ラベルのデザイン */
-.recommend-label {
-  font-size: 0.95rem;
-  color: #b8860b; /* タイトル等と合わせたゴールド系 */
-  font-weight: 700;
-  text-align: center;
-  margin: 35px 0 15px; /* 上に広めの余白、下に少しの余白 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-/* ラベルの両サイドに細いラインを入れる装飾（お好みで） */
-.recommend-label::before,
-.recommend-label::after {
-  content: "";
-  height: 1px;
-  flex-grow: 1;
-  background: rgba(212, 175, 55, 0.3);
-}
-    
-    /* --- 結果表示 --- */
-    .result-theme { font-size: 1.2rem; color: #b8860b; font-weight: 700; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px; display: block; }
+    /* 結果表示ページ独自デザイン */
+    .result-theme { font-size: 1.25rem; color: #b8860b; font-weight: 700; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px; display: block; }
     .result-desc { font-size: 0.9rem; line-height: 1.8; color: #555; text-align: left; white-space: pre-wrap; margin-bottom: 30px; }
     
-    .expert-card { display: flex; align-items: center; gap: 15px; background: #fdfaf0; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #f0e6c8; text-align: left; }
-    .expert-photo img { width: 65px; height: 65px; border-radius: 50%; border: 2px solid var(--accent-gold); object-fit: cover; }
-    .expert-name { margin: 0; font-size: 1rem; color: #2c4a44; }
-    .expert-caption { margin: 3px 0 0; font-size: 0.75rem; color: #888; }
-    .consult-btn { display: block; width: 100%; padding: 16px 0; background: var(--gold-gradient); color: #fff; text-decoration: none; font-weight: bold; border-radius: 10px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); text-align: center; }
+    .recommend-label {
+      font-size: 0.95rem; color: #b8860b; font-weight: 700; text-align: center;
+      margin: 35px 0 15px; display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .recommend-label::before, .recommend-label::after { content: ""; height: 1px; flex-grow: 1; background: rgba(212, 175, 55, 0.3); }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .expert-card { display: flex; align-items: center; gap: 15px; background: #fdfaf0; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #f0e6c8; text-align: left; }
+    .expert-photo img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid var(--accent-gold); object-fit: cover; }
+    .expert-info { flex: 1; }
+    .expert-name { margin: 0; font-size: 1.1rem; color: #2c4a44; font-weight: bold; }
+    .expert-caption { margin: 5px 0 0; font-size: 0.75rem; color: #666; line-height: 1.4; }
+    .consult-btn { display: block; width: 100%; padding: 16px 0; background: var(--gold-gradient); color: #fff; text-decoration: none; font-weight: bold; border-radius: 10px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); text-align: center; font-size: 1rem; }
+
     .fade-in { animation: fadeIn 0.8s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -107,21 +85,19 @@
 
   <div class="container">
     <div class="outer-frame">
-      <div class="inner-content" id="main-box">
+      <div class="inner-content">
         
         <div id="intro-ui" class="fade-in">
           <img src="images/logo.png" alt="ウラーノ" class="logo-img">
           <h1 class="main-title">恋愛相談-ウラーノ-</h1>
           <div class="sub-title">― 真実の縁を結ぶ ―</div>
-          
           <p class="intro-text">
-            あなたの魂が求めている「答え」は、<br>
-            すでにあなたの中に眠っています。<br><br>
+            あなたの魂が求めている「答え」を、<br>
+            導き出す準備はできましたか？<br><br>
             10の問いかけを通じて、<br>
-            今、あなたを幸せへと導く運命の鑑定師を<br>
-            星屑の導きから見つけ出しましょう。
+            今、あなたに最も必要なメッセージと<br>
+            運命の鑑定師を見つけ出しましょう。
           </p>
-
           <button class="start-btn" onclick="startQuiz()">運命の扉を開く</button>
         </div>
 
@@ -135,25 +111,23 @@
           </div>
         </div>
 
-     <div id="result-display" class="fade-in">
-  <span class="result-theme" id="resultTheme"></span>
-  <p class="result-desc" id="resultDesc"></p>
-  
-  <div class="recommend-label">あなたにオススメの先生</div>
+        <div id="result-display" class="fade-in">
+          <span class="result-theme" id="resultTheme"></span>
+          <p class="result-desc" id="resultDesc"></p>
+          
+          <div class="recommend-label">あなたにオススメの先生</div>
 
-  <div class="expert-section">
-    <div class="expert-card">
-      <div class="expert-photo">
-        <img src="images/華月さん (3).jpg" alt="華月先生">
-      </div>
-      <div class="expert-info">
-        <h3 class="expert-name">華月 先生</h3>
-        <p class="expert-caption">深層心理を読み解き、二人の未来を繋ぎます</p>
-      </div>
-    </div>
-    <a href="#" class="consult-btn">華月先生に今すぐ相談する</a>
-  </div>
-</div>
+          <div id="expert-container">
+            <div class="expert-card">
+              <div class="expert-photo"><img src="" id="expertImg" alt="鑑定師"></div>
+              <div class="expert-info">
+                <h3 class="expert-name" id="expertName"></h3>
+                <p class="expert-caption" id="expertCaption"></p>
+              </div>
+            </div>
+            <a href="" id="expertLink" class="consult-btn"></a>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -185,35 +159,78 @@
       "今も心のどこかで繋がっていると思いますか？"
     ];
 
-    const results = [
-      { theme: "① 天に守られたご縁", desc: "あなたとあの人を結ぶご縁は、偶然ではなく、見えない大きな流れの中で丁寧に紡がれてきたものです。\nたとえ今、距離を感じても、その絆が失われることはありません。" },
-      { theme: "② 育まれる愛の季節", desc: "今は答えを急ぐ時ではなく、目の前にある関係性を大切に育む時期です。\n小さなやり取りが、やがて大きな信頼へとつながっていくでしょう。" },
-      { theme: "③ 自分を愛し、運命を拓く", desc: "最も大切なのは、あなた自身を深く労わることです。\n自分を愛する選択を重ねるほど、運命の流れは自然と好転していきます。" },
-      { theme: "④ 過去から続く魂の約束", desc: "あなたとあの人の関係は、過去から続く深い意味を持ったご縁です。\n今この迷いは、より深い理解へ進むための大切な通過点なのです。" },
-      { theme: "⑤ 心を整え、未来を待つ", desc: "無理に動かそうとしなくても、心が整った瞬間から現実は変わり始めます。\n静かに耳を澄ませてみてください。必要な未来は向こうからやってきます。" },
-      { theme: "⑥ 穏やかな愛への兆し", desc: "このご縁は、より穏やかで安心できる愛へと変化していく兆しがあります。\n時間をかけて信頼を育てることで、心から安らげる関係へ近づくでしょう。" }
+    // 結果文章と先生データの紐付け
+    const resultPatterns = [
+      {
+        scoreRange: [9, 10], // YESが9〜10個
+        theme: "① 天に守られたご縁",
+        desc: "あなたとあの人を結ぶご縁は、偶然ではなく、見えない大きな流れの中で丁寧に紡がれてきたものです。\nたとえ今、距離を感じても、その絆が失われることはありません。",
+        expert: {
+          name: "宝海 先生",
+          caption: "『いつも隣にはあの人がいる🩷』\nそんな“愛されるあなた”へと導きます",
+          img: "images/宝海さん.png",
+          url: "urano://counselor?code=4829427"
+        }
+      },
+      {
+        scoreRange: [7, 8], // YESが7〜8個
+        theme: "② 育まれる愛の季節",
+        desc: "今は答えを急ぐ時ではなく、目の前にある関係性を大切に育む時期です。\n小さなやり取りが、やがて大きな信頼へとつながっていくでしょう。",
+        expert: {
+          name: "瞳子 先生",
+          caption: "꧁ 🦋神々の住む島✨バリ島✨にて 🦋꧂\n꧁✨調整したエネルギーをお届けします✨꧂",
+          img: "images/瞳子先生.png",
+          url: "urano://counselor?code=8157232"
+        }
+      },
+      {
+        scoreRange: [5, 6], // YESが5〜6個
+        theme: "④ 過去から続く魂の約束",
+        desc: "あなたとあの人の関係は、今世だけの出会いではなく、過去から続く深い意味を持ったご縁です。\n今この迷いは、より深い理解へ進むための大切な通過点なのです。",
+        expert: {
+          name: "愛羽 先生",
+          caption: "「今なにが起きているか」「どう動けば流れが変わるか」を現実的・具体的にお伝えします🌸",
+          img: "images/愛羽先生.png",
+          url: "urano://counselor?code=28434629"
+        }
+      },
+      {
+        scoreRange: [3, 4], // YESが3〜4個
+        theme: "⑥ 穏やかな愛への兆し",
+        desc: "このご縁は、激しさを超えて、より穏やかで安心できる愛へと変化していく兆しがあります。\n時間をかけて信頼を育てることで、心から安らげる関係へ近づくでしょう。",
+        expert: {
+          name: "由樹 先生",
+          caption: "とことん最後まで叶うその日まで、二人三脚で幸せを掴みに行く気持ちで鑑定をしています☺️",
+          img: "images/由樹先生.png",
+          url: "urano://counselor?code=7681119"
+        }
+      },
+      {
+        scoreRange: [0, 2], // YESが0〜2個
+        theme: "③ 自分を愛し、運命を拓く",
+        desc: "最も大切なのは、あなた自身を深く労わることです。\n自分を愛する選択を重ねるほど、運命の流れは自然と好転し、必要なご縁を引き寄せます。",
+        expert: {
+          name: "リュウタロー 先生",
+          caption: "私は人の心の奥にある小さな迷い、まだ言葉にできない想いを感じ取る力があります。",
+          img: "images/リュウタロー先生.png",
+          url: "urano://counselor?code=3688274"
+        }
+      }
     ];
 
     let currentIdx = 0;
     let yesScore = 0;
 
-    const introUI = document.getElementById("intro-ui");
-    const quizUI = document.getElementById("quiz-ui");
-    const resUI = document.getElementById("result-display");
-    const qEl = document.getElementById("question");
-    const bar = document.getElementById("progressBar");
-    const counterEl = document.getElementById("counter");
-
     function startQuiz() {
-      introUI.style.display = "none";
-      quizUI.style.display = "block";
+      document.getElementById("intro-ui").style.display = "none";
+      document.getElementById("quiz-ui").style.display = "block";
       render();
     }
 
     function render() {
-      qEl.textContent = questions[currentIdx];
-      counterEl.textContent = `第 ${currentIdx + 1} 問 / 全 ${questions.length} 問`;
-      bar.style.width = ((currentIdx / questions.length) * 100) + "%";
+      document.getElementById("question").textContent = questions[currentIdx];
+      document.getElementById("counter").textContent = `第 ${currentIdx + 1} 問 / 全 ${questions.length} 問`;
+      document.getElementById("progressBar").style.width = ((currentIdx / questions.length) * 100) + "%";
     }
 
     function next(val) {
@@ -224,18 +241,23 @@
     }
 
     function finish() {
-      quizUI.style.display = "none";
-      let res;
-      if (yesScore >= 9) res = results[0];
-      else if (yesScore >= 7) res = results[1];
-      else if (yesScore >= 5) res = results[3];
-      else if (yesScore >= 3) res = results[5];
-      else if (yesScore >= 1) res = results[4];
-      else res = results[2];
+      document.getElementById("quiz-ui").style.display = "none";
       
-      document.getElementById("resultTheme").textContent = res.theme;
-      document.getElementById("resultDesc").textContent = res.desc;
-      resUI.style.display = "block";
+      // スコアに該当するパターンを検索
+      const pattern = resultPatterns.find(p => yesScore >= p.scoreRange[0] && yesScore <= p.scoreRange[1]);
+
+      // 画面に反映
+      document.getElementById("resultTheme").textContent = pattern.theme;
+      document.getElementById("resultDesc").textContent = pattern.desc;
+      
+      // 先生情報の反映
+      document.getElementById("expertImg").src = pattern.expert.img;
+      document.getElementById("expertName").textContent = pattern.expert.name;
+      document.getElementById("expertCaption").innerText = pattern.expert.caption;
+      document.getElementById("expertLink").href = pattern.expert.url;
+      document.getElementById("expertLink").textContent = `${pattern.expert.name}に今すぐ相談する`;
+
+      document.getElementById("result-display").style.display = "block";
     }
   </script>
 </body>
