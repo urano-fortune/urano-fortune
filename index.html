@@ -15,227 +15,68 @@
     }
 
     body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Shippori Mincho', serif;
-      background: var(--bg-green);
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow-y: auto;
-      padding: 40px 0;
+      margin: 0; min-height: 100vh; font-family: 'Shippori Mincho', serif;
+      background: var(--bg-green); color: #333; display: flex;
+      justify-content: center; align-items: center; overflow-y: auto; padding: 20px 0;
     }
 
-    #particle-container {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
+    #particle-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
-    .container {
-      width: 92%;
-      max-width: 550px;
-      z-index: 1;
-    }
+    .container { width: 92%; max-width: 500px; z-index: 1; }
 
-    .header-area {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .header-area img {
-      max-width: 150px;
-      margin-bottom: 10px;
-      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
-    }
-
-    .main-title {
-      font-size: 24px;
-      margin: 0;
-      background: var(--gold-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 0.15em;
-      font-weight: 700;
-    }
-
-    .sub-title {
-      font-size: 12px;
-      margin-top: 8px;
-      color: var(--accent-gold);
-      letter-spacing: 0.2em;
-    }
-
-    /* ボックス構造 */
+    /* --- 回答ボックス --- */
     .outer-frame {
-      padding: 4px;
-      background: var(--gold-gradient);
-      border-radius: 20px;
+      padding: 4px; background: var(--gold-gradient); border-radius: 20px;
       box-shadow: 0 15px 45px rgba(0,0,0,0.4);
     }
 
-/* --- CSSの修正・追加部分 --- */
-
-.inner-content {
-  background: var(--box-white);
-  border-radius: 16px;
-  padding: 30px 25px; /* 45pxから30pxへ短縮 */
-  text-align: center;
-  min-height: auto; /* 固定の高さを解除してコンパクトに */
-  display: flex;
-  flex-direction: column;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-}
-
-.progress-wrapper {
-  margin-bottom: 20px; /* 40pxから20pxへ短縮 */
-}
-
-/* カウンターの追加 */
-.q-counter {
-  font-size: 12px;
-  color: var(--accent-gold);
-  margin-bottom: 10px;
-  letter-spacing: 0.1em;
-}
-
-#question {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 30px; /* 50pxから30pxへ短縮 */
-  min-height: 3.2em; /* 2行分程度の高さを確保してガタつきを防止 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #2c4a44;
-}
-
-/* ボタン周りの余白も少し調整 */
-.btn-group {
-  gap: 15px;
-  margin-top: 10px;
-}
-
-    .btn {
-      width: 130px;
-      padding: 15px 0;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 50px;
-      font-family: inherit;
-      transition: 0.3s;
+    .inner-content {
+      background: var(--box-white); border-radius: 16px; padding: 35px 25px;
+      text-align: center; border: 1px solid rgba(212, 175, 55, 0.2);
+      min-height: 380px; display: flex; flex-direction: column; justify-content: center;
     }
 
-    .btn-yes { background: var(--gold-gradient); color: #fff; border: none; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
+    /* --- ヘッダー（イントロ共通） --- */
+    .logo-img { max-width: 140px; margin-bottom: 15px; }
+    .main-title { font-size: 22px; margin: 0; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; letter-spacing: 0.1em; }
+    .sub-title { font-size: 11px; margin-top: 8px; color: #888; letter-spacing: 0.2em; font-weight: bold; }
+
+    /* --- イントロ画面 --- */
+    .intro-text { font-size: 0.95rem; line-height: 2; color: #444; margin: 30px 0; }
+    .start-btn { 
+      padding: 16px 40px; background: var(--gold-gradient); color: #fff; 
+      border: none; border-radius: 50px; font-weight: bold; cursor: pointer; 
+      font-size: 1.1rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); 
+      transition: 0.3s; font-family: inherit;
+    }
+    .start-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+    /* --- クイズUI（初期は非表示） --- */
+    #quiz-ui, #result-display { display: none; }
+
+    .q-counter { font-size: 11px; color: var(--accent-gold); margin-bottom: 10px; font-weight: bold; }
+    #question { font-size: 1.1rem; line-height: 1.7; color: #2c4a44; margin: 20px 0 35px; min-height: 3.4em; display: flex; align-items: center; justify-content: center; }
+
+    .progress-wrapper { background: #eee; height: 3px; border-radius: 10px; margin-bottom: 25px; }
+    .progress-bar { height: 100%; width: 0%; background: var(--gold-gradient); transition: 0.6s; }
+
+    .btn-group { display: flex; justify-content: center; gap: 20px; }
+    .btn { width: 120px; padding: 14px 0; border-radius: 50px; font-weight: bold; cursor: pointer; font-family: inherit; transition: 0.3s; }
+    .btn-yes { background: var(--gold-gradient); color: #fff; border: none; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
     .btn-no { background: #fff; color: #999; border: 1px solid #ddd; }
 
-    /* 結果表示 */
-    .result-display {
-      display: none;
-      text-align: left;
-      animation: fadeIn 1s ease forwards;
-    }
-
-    .result-theme {
-      display: block;
-      font-size: 1.3rem;
-      color: #b8860b;
-      text-align: center;
-      margin-bottom: 25px;
-      line-height: 1.5;
-      font-weight: 700;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-      padding-bottom: 15px;
-    }
-
-    .result-desc {
-      font-size: 0.95rem;
-      line-height: 1.8;
-      color: #444;
-      white-space: pre-wrap;
-      margin-bottom: 30px;
-    }
-
-    /* 先生紹介セクション */
-    .divider {
-      border: none;
-      border-top: 1px dashed var(--accent-gold);
-      margin: 30px 0;
-    }
-
-    .expert-section {
-      text-align: center;
-      padding: 10px 0;
-    }
-
-    .expert-title {
-      font-size: 0.9rem;
-      color: #b8860b;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
-
-    .expert-card {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      background: #fdfaf0;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 25px;
-      border: 1px solid rgba(212, 175, 55, 0.1);
-    }
-
-    .expert-photo img {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      border: 2px solid var(--accent-gold);
-      object-fit: cover;
-    }
-
-    .expert-info {
-      text-align: left;
-    }
-
-    .expert-name {
-      margin: 0;
-      font-size: 1.1rem;
-      color: #2c4a44;
-      font-weight: 700;
-    }
-
-    .expert-caption {
-      margin: 5px 0 0;
-      font-size: 0.8rem;
-      color: #777;
-    }
-
-    .consult-btn {
-      display: block;
-      width: 100%;
-      padding: 18px 0;
-      background: var(--gold-gradient);
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-      transition: all 0.3s ease;
-      text-align: center;
-    }
-
-    .consult-btn:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.1);
-      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
-    }
+    /* --- 結果表示 --- */
+    .result-theme { font-size: 1.2rem; color: #b8860b; font-weight: 700; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px; display: block; }
+    .result-desc { font-size: 0.9rem; line-height: 1.8; color: #555; text-align: left; white-space: pre-wrap; margin-bottom: 30px; }
+    
+    .expert-card { display: flex; align-items: center; gap: 15px; background: #fdfaf0; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #f0e6c8; text-align: left; }
+    .expert-photo img { width: 65px; height: 65px; border-radius: 50%; border: 2px solid var(--accent-gold); object-fit: cover; }
+    .expert-name { margin: 0; font-size: 1rem; color: #2c4a44; }
+    .expert-caption { margin: 3px 0 0; font-size: 0.75rem; color: #888; }
+    .consult-btn { display: block; width: 100%; padding: 16px 0; background: var(--gold-gradient); color: #fff; text-decoration: none; font-weight: bold; border-radius: 10px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); text-align: center; }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.8s ease forwards; }
   </style>
 </head>
 <body>
@@ -243,37 +84,41 @@
   <div id="particle-container"></div>
 
   <div class="container">
-    <div class="header-area">
-      <img src="images/logo.png" alt="占いロゴ">
-      <h1 class="main-title">恋愛相談-ウラーノ-</h1>
-      <div class="sub-title">― 真実の縁を結ぶ ―</div>
-    </div>
-
     <div class="outer-frame">
-      <div class="inner-content">
+      <div class="inner-content" id="main-box">
+        
+        <div id="intro-ui" class="fade-in">
+          <img src="images/logo.png" alt="ウラーノ" class="logo-img">
+          <h1 class="main-title">恋愛相談-ウラーノ-</h1>
+          <div class="sub-title">― 真実の縁を結ぶ ―</div>
+          
+          <p class="intro-text">
+            あなたの魂が求めている「答え」は、<br>
+            すでにあなたの中に眠っています。<br><br>
+            10の問いかけを通じて、<br>
+            今、あなたを幸せへと導く運命の鑑定師を<br>
+            星屑の導きから見つけ出しましょう。
+          </p>
+
+          <button class="start-btn" onclick="startQuiz()">運命の扉を開く</button>
+        </div>
+
         <div id="quiz-ui">
-          <div class="progress-wrapper">
-            <div class="progress-bar" id="progressBar"></div>
-          </div>
+          <div class="progress-wrapper"><div class="progress-bar" id="progressBar"></div></div>
+          <div id="counter" class="q-counter"></div>
           <h2 id="question"></h2>
           <div class="btn-group">
-            <button class="btn btn-yes" onclick="next(true)">YES</button>
-            <button class="btn btn-no" onclick="next(false)">NO</button>
+            <button class="btn btn-yes" onclick="next(true)">はい</button>
+            <button class="btn btn-no" onclick="next(false)">いいえ</button>
           </div>
         </div>
 
-        <div class="result-display" id="resultDisplay">
+        <div id="result-display" class="fade-in">
           <span class="result-theme" id="resultTheme"></span>
           <p class="result-desc" id="resultDesc"></p>
-          
-          <hr class="divider">
-
           <div class="expert-section">
-            <p class="expert-title">あなたにオススメの先生はこちら</p>
             <div class="expert-card">
-              <div class="expert-photo">
-                <img src="images/華月さん (3).jpg" alt="華月先生">
-              </div>
+              <div class="expert-photo"><img src="images/華月さん (3).jpg" alt="華月先生"></div>
               <div class="expert-info">
                 <h3 class="expert-name">華月 先生</h3>
                 <p class="expert-caption">深層心理を読み解き、二人の未来を繋ぎます</p>
@@ -282,6 +127,7 @@
             <a href="#" class="consult-btn">華月先生に今すぐ相談する</a>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -313,26 +159,33 @@
     ];
 
     const results = [
-      { theme: "① あなたとあの人のご縁は、天に守られています", desc: "あなたとあの人を結ぶご縁は、偶然ではなく、見えない大きな流れの中で丁寧に紡がれてきたものです。\nたとえ今、距離や不安を感じる瞬間があったとしても、そのご縁自体が失われることはありません。\n天はすでにこの関係を見守り、必要な学びと気づきを与えながら、最善の形へと導こうとしています。" },
-      { theme: "② 焦らず、今の関係を大切に育んでください", desc: "今は答えを急ぐ時ではなく、目の前にある関係性そのものを大切に感じることが求められています。\n小さなやり取り、何気ない言葉、ふとした安心感――それら一つ一つが、未来の土台となります。\n焦らず、比べず、今この瞬間を慈しむことが、やがて大きな信頼へとつながっていくでしょう。" },
-      { theme: "③ 今は自分を愛することで、運命が好転します", desc: "この時期に最も大切なのは、相手をどうにかしようとすることではなく、あなた自身を深く労わることです。\n自分の感情を否定せず、頑張ってきた心を認めてあげることで、あなたの内側の波動が整っていきます。\n自分を愛する選択を重ねるほど、運命の流れは自然と好転し、必要なご縁は引き寄せられていくでしょう。" },
-      { theme: "④ このご縁は、過去から続く意味あるつながりです", desc: "あなたとあの人の関係は、今世だけの偶然の出会いではなく、過去から続く深い意味を持ったご縁です。\nどこか懐かしさを感じたり、理由はわからないのに強く心が惹かれるのは、その魂の記憶によるもの。\n今この関係に迷いが生じているとしても、それは終わりではなく、より深い理解へ進むための通過点なのです。" },
-      { theme: "⑤ 今は心を整えることで、未来の扉が開きます", desc: "状況を無理に動かそうとしなくても、あなたの心が整った瞬間から、現実は少しずつ変わり始めます。\n不安や期待に振り回されるのではなく、「今の自分は何を感じているのか」に静かに耳を澄ませてみてください。\n心が落ち着いたとき、あなたにとって本当に必要なご縁と未来が、自然と姿を現してくれるでしょう。" },
-      { theme: "⑥ この先、穏やかな愛へと形を変えていく兆しがあります", desc: "このご縁は、激しさや不安定さを超えて、より穏やかで安心できる愛へと変化していく兆しがあります。\n今すぐに答えが出なくても、時間をかけて信頼を育てることで、心から安らげる関係へと近づいていくでしょう。\nあなたが無理をせず、自分らしくいられること――それこそが、この恋が長く続くための鍵となります。" }
+      { theme: "① 天に守られたご縁", desc: "あなたとあの人を結ぶご縁は、偶然ではなく、見えない大きな流れの中で丁寧に紡がれてきたものです。\nたとえ今、距離を感じても、その絆が失われることはありません。" },
+      { theme: "② 育まれる愛の季節", desc: "今は答えを急ぐ時ではなく、目の前にある関係性を大切に育む時期です。\n小さなやり取りが、やがて大きな信頼へとつながっていくでしょう。" },
+      { theme: "③ 自分を愛し、運命を拓く", desc: "最も大切なのは、あなた自身を深く労わることです。\n自分を愛する選択を重ねるほど、運命の流れは自然と好転していきます。" },
+      { theme: "④ 過去から続く魂の約束", desc: "あなたとあの人の関係は、過去から続く深い意味を持ったご縁です。\n今この迷いは、より深い理解へ進むための大切な通過点なのです。" },
+      { theme: "⑤ 心を整え、未来を待つ", desc: "無理に動かそうとしなくても、心が整った瞬間から現実は変わり始めます。\n静かに耳を澄ませてみてください。必要な未来は向こうからやってきます。" },
+      { theme: "⑥ 穏やかな愛への兆し", desc: "このご縁は、より穏やかで安心できる愛へと変化していく兆しがあります。\n時間をかけて信頼を育てることで、心から安らげる関係へ近づくでしょう。" }
     ];
 
     let currentIdx = 0;
     let yesScore = 0;
 
+    const introUI = document.getElementById("intro-ui");
+    const quizUI = document.getElementById("quiz-ui");
+    const resUI = document.getElementById("result-display");
     const qEl = document.getElementById("question");
     const bar = document.getElementById("progressBar");
-    const quizUI = document.getElementById("quiz-ui");
-    const resEl = document.getElementById("resultDisplay");
-    const resTheme = document.getElementById("resultTheme");
-    const resDesc = document.getElementById("resultDesc");
+    const counterEl = document.getElementById("counter");
+
+    function startQuiz() {
+      introUI.style.display = "none";
+      quizUI.style.display = "block";
+      render();
+    }
 
     function render() {
       qEl.textContent = questions[currentIdx];
+      counterEl.textContent = `第 ${currentIdx + 1} 問 / 全 ${questions.length} 問`;
       bar.style.width = ((currentIdx / questions.length) * 100) + "%";
     }
 
@@ -344,7 +197,6 @@
     }
 
     function finish() {
-      bar.style.width = "100%";
       quizUI.style.display = "none";
       let res;
       if (yesScore >= 9) res = results[0];
@@ -353,12 +205,11 @@
       else if (yesScore >= 3) res = results[5];
       else if (yesScore >= 1) res = results[4];
       else res = results[2];
-      resTheme.textContent = res.theme;
-      resDesc.textContent = res.desc;
-      resEl.style.display = "block";
+      
+      document.getElementById("resultTheme").textContent = res.theme;
+      document.getElementById("resultDesc").textContent = res.desc;
+      resUI.style.display = "block";
     }
-
-    render();
   </script>
 </body>
 </html>
