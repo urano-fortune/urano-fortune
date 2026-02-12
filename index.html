@@ -43,7 +43,6 @@
       min-height: 400px; display: flex; flex-direction: column; justify-content: center;
     }
 
-    /* イントロ・ヘッダー */
     .logo-img { max-width: 140px; margin-bottom: 15px; }
     .main-title { font-size: 22px; margin: 0; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; letter-spacing: 0.1em; }
     .sub-title { font-size: 11px; margin-top: 8px; color: #888; letter-spacing: 0.2em; font-weight: bold; }
@@ -56,17 +55,14 @@
       transition: 0.3s; font-family: inherit;
     }
 
-/* 追加するスタイル */
-.disclaimer {
-  font-size: 0.65rem; /* さらに小さく（10px〜11px相当） */
-  color: #a0a0a0;    /* 少し薄めのグレー */
-  margin-top: 20px;
-  line-height: 1.6;
-  text-align: center;
-  font-weight: normal;
-}
+    .disclaimer {
+      font-size: 0.65rem;
+      color: #a0a0a0;
+      margin-top: 20px;
+      line-height: 1.6;
+      text-align: center;
+    }
     
-    /* クイズUI */
     #quiz-ui, #result-display { display: none; }
     .q-counter { font-size: 11px; color: var(--accent-gold); margin-bottom: 10px; font-weight: bold; }
     #question { font-size: 1.1rem; line-height: 1.7; color: #2c4a44; margin: 20px 0 35px; min-height: 3.4em; display: flex; align-items: center; justify-content: center; }
@@ -77,7 +73,6 @@
     .btn-yes { background: var(--gold-gradient); color: #fff; border: none; }
     .btn-no { background: #fff; color: #999; border: 1px solid #ddd; }
 
-    /* 結果表示 */
     .result-theme { font-size: 1.25rem; color: #b8860b; font-weight: 700; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px; display: block; }
     .result-desc { font-size: 0.9rem; line-height: 1.8; color: #555; text-align: left; white-space: pre-wrap; margin-bottom: 30px; }
     
@@ -125,8 +120,8 @@
           <div id="counter" class="q-counter"></div>
           <h2 id="question"></h2>
           <div class="btn-group">
-            <button class="btn btn-yes" onclick="next(true)">はい</button>
-            <button class="btn btn-no" onclick="next(false)">いいえ</button>
+            <button class="btn btn-yes" onclick="handleAnswer(true)">はい</button>
+            <button class="btn btn-no" onclick="handleAnswer(false)">いいえ</button>
           </div>
         </div>
 
@@ -145,7 +140,7 @@
             <a href="" id="expertLink" class="consult-btn"></a>
           </div>
           
-<p class="disclaimer">
+          <p class="disclaimer">
             本診断は一般的な傾向を示すもので、将来を保証するものではありません。<br>
             「もっと深く知りたい」「今の状況を具体的に変えたい」と思われたときは、<br>
             ぜひ一度先生を頼ってみてくださいね。
@@ -157,6 +152,7 @@
   </div>
 
   <script>
+    // 背景パーティクル
     const pContainer = document.getElementById('particle-container');
     for (let i = 0; i < 40; i++) {
       const p = document.createElement('div');
@@ -168,57 +164,32 @@
       pContainer.appendChild(p);
     }
 
+    // 質問データ
     const questions = [
       "最近、あの人のことを考える時間が増えましたか？",
       "連絡が来ると少し期待してしまいますか？",
       "本音を伝えられずにいると感じますか？",
       "相手の気持ちが気になって眠れない夜はありますか？",
-      "自分ばかり想っている気がしますか？",
-      "それでも、関係を信じたい気持ちはありますか？",
-      "未来の話をしたことがありますか？",
-      "小さな優しさに救われたことはありますか？",
-      "このご縁は意味があると感じますか？",
-      "今も心のどこかで繋がっていると思いますか？"
+      "関係を信じたい気持ちはありますか？",
+      "占いの結果だけでなく、先生との心の通い合った会話も大切にしたい。鑑定と対話、その両方をバランスよく求めていますか？",
+      "表面的な答えではなく、現状や未来を細部まで緻密に読み解き、一つ一つの結果を論理的に分かりやすく解説してくれる丁寧で濃密な鑑定を求めますか？",
+      "アドバイスの前に、まずはあなたの胸の内を否定せず最後まで受け止めてくれる、『親友のように何でも話しやすい』安心感を大切にしたいですか？",
+      "占いの結果だけに留まらず、今抱えているお悩みに対して、具体的で現実的なアクションプランを一緒に練り上げられる『頼れる友達』のような対話を希望しますか？",
+      "キャリアの長さよりも、今のあなたに100%の情熱を注いでくれる、今がお得な『期待の新星』に相談したいですか？"
     ];
 
-    const resultPatterns = [
-      {
-        scoreRange: [9, 10],
-        theme: "① 天に守られたご縁",
-        desc: "あなたとあの人を結ぶご縁は、偶然ではなく、見えない大きな流れの中で丁寧に紡がれてきたものです。\nたとえ今、距離を感じても、その絆が失われることはありません。",
-        expert: { name: "明心 先生", caption: "ご相談内容にしっかりと寄り添いながら、/n今のあなたに本当に必要なメッセージをお届けいたします✨💎", img: "images/明心さん.png", url: "urano://counselor?code=23351095" }
-      },
-      {
-        scoreRange: [7, 8],
-        theme: "② 育まれる愛の季節",
-        desc: "今は答えを急ぐ時ではなく、目の前にある関係性を大切に育む時期です。\n小さなやり取りが、やがて大きな信頼へとつながっていくでしょう。",
-        expert: { name: "瞳子 先生", caption: "꧁ 🦋神々の住む島✨バリ島✨にて 🦋꧂\n꧁✨調整したエネルギーをお届けします✨꧂", img: "images/瞳子先生.png", url: "urano://counselor?code=8157232" }
-      },
-      {
-        scoreRange: [5, 6],
-        theme: "④ 過去から続く魂の約束",
-        desc: "あなたとあの人の関係は、今世だけの出会いではなく、過去から続く深い意味を持ったご縁です。\n今この迷いは、より深い理解へ進むための大切な通過点なのです。",
-        expert: { name: "愛羽 先生", caption: "「今なにが起きているか」「どう動けば流れが変わるか」を現実的・具体的にお伝えします🌸", img: "images/愛羽先生.png", url: "urano://counselor?code=28434629" }
-      },
-      {
-        scoreRange: [3, 4],
-        theme: "⑥ 穏やかな愛への兆し",
-        desc: "このご縁は、激しさを超えて、より穏やかで安心できる愛へと変化していく兆しがあります。\n時間をかけて信頼を育てることで、心から安らげる関係へ近づくでしょう。",
-        expert: { name: "由樹 先生", caption: "あなた様の願いに寄り添わせていただき/nそっと灯火をともし、進むべき道へと、/nお導き致します。私にお任せください。", img: "images/優縁さん.png", url: "urano://counselor?code=3492166" }
-      },
-      {
-        scoreRange: [0, 2],
-        theme: "③ 自分を愛し、運命を拓く",
-        desc: "最も大切なのは、あなた自身を深く労わることです。\n自分を愛する選択を重ねるほど、運命の流れは自然と好転し、必要なご縁を引き寄せます。",
-        expert: { name: "リュウタロー 先生", caption: "私は人の心の奥にある小さな迷い、まだ言葉にできない想いを感じ取る力があります。", img: "images/リュウタロー先生.png", url: "urano://counselor?code=3688274" }
-      }
-    ];
+    // 先生データ
+    const experts = {
+      yuen: { name: "優縁 先生", theme: "対話と鑑定の調和", desc: "心を通わせる対話を重視するあなたには、優縁先生が最適です。温かなエネルギーと共に、納得のいく未来を共に描きます。", img: "images/優縁さん.png", url: "urano://counselor?code=3492166", caption: "あなた様の願いに寄り添い、進むべき道へと灯火をともします。" },
+      toko: { name: "瞳子 先生", theme: "緻密で論理的な未来図", desc: "細部まで読み解く緻密さを求めるあなたには、瞳子先生がぴったりです。論理的で分かりやすい解説が、迷いを確信に変えるでしょう。", img: "images/瞳子先生.png", url: "urano://counselor?code=8157232", caption: "バリ島の神聖なエネルギーで、現状と未来を鮮明に読み解きます。" },
+      meishin: { name: "明心 先生", theme: "安心感に包まれる鑑定", desc: "親友のような話しやすさを求めるあなたには、明心先生が寄り添います。否定のない優しい対話が、あなたの心を軽くします。", img: "images/明心さん.png", url: "urano://counselor?code=23351095", caption: "今のあなたに本当に必要なメッセージを、愛を持って丁寧にお届けします。" },
+      ryutaro: { name: "リュウタロー 先生", theme: "心強い味方としての対話", desc: "現実的なアクションプランを必要とするあなたには、リュウタロー先生が伴走します。友達のような気軽さで、深い悩みも解決へ導きます。", img: "images/リュウタロー先生.png", url: "urano://counselor?code=3688274", caption: "言葉にできない心の奥底を汲み取り、具体的な一歩を導き出します。" },
+      uha: { name: "愛羽 先生", theme: "情熱あふれる期待の新星", desc: "100%の情熱で向き合ってほしいあなたには、愛羽先生が全力で応えます。フレッシュかつ鋭い鑑定が、現状を打破するきっかけになります。", img: "images/愛羽先生.png", url: "urano://counselor?code=28434629", caption: "「今なにが起きているか」を現実的・具体的にお伝えし、流れを変えます。" }
+    };
 
     let currentIdx = 0;
-    let yesScore = 0;
 
     function startQuiz() {
-      // 診断開始イベントを計測
       gtag('event', 'quiz_start');
       document.getElementById("intro-ui").style.display = "none";
       document.getElementById("quiz-ui").style.display = "block";
@@ -231,31 +202,70 @@
       document.getElementById("progressBar").style.width = ((currentIdx / questions.length) * 100) + "%";
     }
 
-    function next(val) {
-      if (val) yesScore++;
-      currentIdx++;
-      if (currentIdx < questions.length) render();
-      else finish();
+    function handleAnswer(isYes) {
+      // Q1-Q5はどっちを答えてもQ6へ進む
+      if (currentIdx < 5) {
+        currentIdx++;
+        render();
+        return;
+      }
+
+      // Q6以降の分岐ロジック
+      if (currentIdx === 5) { // Q6
+        if (isYes) finish(experts.yuen);
+        else nextQuestion();
+      } else if (currentIdx === 6) { // Q7
+        if (isYes) finish(experts.toko);
+        else nextQuestion();
+      } else if (currentIdx === 7) { // Q8
+        if (isYes) finishRandom(experts.meishin, experts.ryutaro);
+        else nextQuestion();
+      } else if (currentIdx === 8) { // Q9
+        if (isYes) finishRandom(experts.meishin, experts.ryutaro);
+        else nextQuestion();
+      } else if (currentIdx === 9) { // Q10
+        if (isYes) finish(experts.uha);
+        else finishRandomAll(); // 全部Noの場合
+      }
     }
 
-    function finish() {
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < questions.length) {
+        render();
+      }
+    }
+
+    // 特定の先生で確定
+    function finish(expert) {
+      showResult(expert);
+    }
+
+    // ランダム選出（明心先生かリュウタローさん）
+    function finishRandom(ex1, ex2) {
+      const selected = Math.random() < 0.5 ? ex1 : ex2;
+      showResult(selected);
+    }
+
+    // 全てNoの場合の完全ランダム
+    function finishRandomAll() {
+      const allExperts = Object.values(experts);
+      const selected = allExperts[Math.floor(Math.random() * allExperts.length)];
+      showResult(selected);
+    }
+
+    function showResult(expert) {
       document.getElementById("quiz-ui").style.display = "none";
-      const pattern = resultPatterns.find(p => yesScore >= p.scoreRange[0] && yesScore <= p.scoreRange[1]);
+      document.getElementById("resultTheme").textContent = expert.theme;
+      document.getElementById("resultDesc").textContent = expert.desc;
+      document.getElementById("expertImg").src = expert.img;
+      document.getElementById("expertName").textContent = expert.name;
+      document.getElementById("expertCaption").innerText = expert.caption;
+      document.getElementById("expertLink").href = expert.url;
+      document.getElementById("expertLink").textContent = `${expert.name}に今すぐ相談する`;
 
-      document.getElementById("resultTheme").textContent = pattern.theme;
-      document.getElementById("resultDesc").textContent = pattern.desc;
-      document.getElementById("expertImg").src = pattern.expert.img;
-      document.getElementById("expertName").textContent = pattern.expert.name;
-      document.getElementById("expertCaption").innerText = pattern.expert.caption;
-      document.getElementById("expertLink").href = pattern.expert.url;
-      document.getElementById("expertLink").textContent = `${pattern.expert.name}に今すぐ相談する`;
-
-      // 鑑定ボタンクリック時の計測
       document.getElementById("expertLink").onclick = function() {
-        gtag('event', 'select_expert', {
-          'expert_name': pattern.expert.name,
-          'method': 'consult_button'
-        });
+        gtag('event', 'select_expert', { 'expert_name': expert.name });
       };
 
       document.getElementById("result-display").style.display = "block";
