@@ -151,8 +151,8 @@
     </div>
   </div>
 
-  <script>
-    // 背景パーティクル
+<script>
+    // 背景パーティクル（変更なし）
     const pContainer = document.getElementById('particle-container');
     for (let i = 0; i < 40; i++) {
       const p = document.createElement('div');
@@ -164,7 +164,6 @@
       pContainer.appendChild(p);
     }
 
-    // 質問データ
     const questions = [
       "最近、あの人のことを考える時間が増えましたか？",
       "連絡が来ると少し期待してしまいますか？",
@@ -178,16 +177,16 @@
       "キャリアの長さよりも、今のあなたに100%の情熱を注いでくれる、今がお得な『期待の新星』に相談したいですか？"
     ];
 
-    // 先生データ
     const experts = {
       yuen: { name: "優縁 先生", theme: "対話と鑑定の調和", desc: "心を通わせる対話を重視するあなたには、優縁先生が最適です。温かなエネルギーと共に、納得のいく未来を共に描きます。", img: "images/優縁さん.png", url: "urano://counselor?code=3492166", caption: "あなた様の願いに寄り添い、進むべき道へと灯火をともします。" },
       toko: { name: "瞳子 先生", theme: "緻密で論理的な未来図", desc: "細部まで読み解く緻密さを求めるあなたには、瞳子先生がぴったりです。論理的で分かりやすい解説が、迷いを確信に変えるでしょう。", img: "images/瞳子先生.png", url: "urano://counselor?code=8157232", caption: "バリ島の神聖なエネルギーで、現状と未来を鮮明に読み解きます。" },
-      meishin: { name: "明心 先生", theme: "安心感に包まれる鑑定", desc: "親友のような話しやすさを求めるあなたには、明心先生が寄り添います。否定のない優しい対話が、あなたの心を軽くします。", img: "images/明心さん.png", url: "urano://counselor?code=23351095", caption: "今のあなたに本当に必要なメッセージを、愛を持って丁寧にお届けします。" },
+      meishin: { name: "明心 先生", theme: "安心感に包める鑑定", desc: "親友のような話しやすさを求めるあなたには、明心先生が寄り添います。否定のない優しい対話が、あなたの心を軽くします。", img: "images/明心さん.png", url: "urano://counselor?code=23351095", caption: "今のあなたに本当に必要なメッセージを、愛を持って丁寧にお届けします。" },
       ryutaro: { name: "リュウタロー 先生", theme: "心強い味方としての対話", desc: "現実的なアクションプランを必要とするあなたには、リュウタロー先生が伴走します。友達のような気軽さで、深い悩みも解決へ導きます。", img: "images/リュウタロー先生.png", url: "urano://counselor?code=3688274", caption: "言葉にできない心の奥底を汲み取り、具体的な一歩を導き出します。" },
       uha: { name: "愛羽 先生", theme: "情熱あふれる期待の新星", desc: "100%の情熱で向き合ってほしいあなたには、愛羽先生が全力で応えます。フレッシュかつ鋭い鑑定が、現状を打破するきっかけになります。", img: "images/愛羽先生.png", url: "urano://counselor?code=28434629", caption: "「今なにが起きているか」を現実的・具体的にお伝えし、流れを変えます。" }
     };
 
     let currentIdx = 0;
+    let answers = [];
 
     function startQuiz() {
       gtag('event', 'quiz_start');
@@ -203,55 +202,45 @@
     }
 
     function handleAnswer(isYes) {
-      // Q1-Q5はどっちを答えてもQ6へ進む
-      if (currentIdx < 5) {
-        currentIdx++;
-        render();
-        return;
-      }
-
-      // Q6以降の分岐ロジック
-      if (currentIdx === 5) { // Q6
-        if (isYes) finish(experts.yuen);
-        else nextQuestion();
-      } else if (currentIdx === 6) { // Q7
-        if (isYes) finish(experts.toko);
-        else nextQuestion();
-      } else if (currentIdx === 7) { // Q8
-        if (isYes) finishRandom(experts.meishin, experts.ryutaro);
-        else nextQuestion();
-      } else if (currentIdx === 8) { // Q9
-        if (isYes) finishRandom(experts.meishin, experts.ryutaro);
-        else nextQuestion();
-      } else if (currentIdx === 9) { // Q10
-        if (isYes) finish(experts.uha);
-        else finishRandomAll(); // 全部Noの場合
-      }
-    }
-
-    function nextQuestion() {
+      answers[currentIdx] = isYes;
       currentIdx++;
-      if (currentIdx < questions.length) {
-        render();
+      if (currentIdx < questions.length) render();
+      else calculateResult();
+    }
+
+    function calculateResult() {
+      // 1. Q10(index 9)がYesなら、無条件で愛羽先生
+      if (answers[9]) {
+        return showResult(experts.uha);
       }
-    }
 
-    // 特定の先生で確定
-    function finish(expert) {
-      showResult(expert);
-    }
+      // 2. Q6〜Q9の中でYesがついた候補をリストアップ
+      let candidates = [];
+      if (answers[5]) candidates.push(experts.yuen); // Q6
+      if (answers[6]) candidates.push(experts.toko); // Q7
+      if (answers[7]) { // Q8は明心orリュウタローのランダム枠
+          candidates.push(experts.meishin);
+          candidates.push(experts.ryutaro);
+      }
+      if (answers[8]) { // Q9も明心orリュウタローのランダム枠
+          candidates.push(experts.meishin);
+          candidates.push(experts.ryutaro);
+      }
 
-    // ランダム選出（明心先生かリュウタローさん）
-    function finishRandom(ex1, ex2) {
-      const selected = Math.random() < 0.5 ? ex1 : ex2;
-      showResult(selected);
-    }
+      // 重複を削除（Q8とQ9両方Yesの場合に備えて）
+      candidates = Array.from(new Set(candidates));
 
-    // 全てNoの場合の完全ランダム
-    function finishRandomAll() {
-      const allExperts = Object.values(experts);
-      const selected = allExperts[Math.floor(Math.random() * allExperts.length)];
-      showResult(selected);
+      // 3. 判定
+      if (candidates.length > 0) {
+        // Yesがあった人の中からランダム
+        const finalSelection = candidates[Math.floor(Math.random() * candidates.length)];
+        showResult(finalSelection);
+      } else {
+        // 全部No（Q6〜Q10すべてNo）なら、全先生からランダム
+        const allExperts = Object.values(experts);
+        const finalSelection = allExperts[Math.floor(Math.random() * allExperts.length)];
+        showResult(finalSelection);
+      }
     }
 
     function showResult(expert) {
@@ -263,11 +252,6 @@
       document.getElementById("expertCaption").innerText = expert.caption;
       document.getElementById("expertLink").href = expert.url;
       document.getElementById("expertLink").textContent = `${expert.name}に今すぐ相談する`;
-
-      document.getElementById("expertLink").onclick = function() {
-        gtag('event', 'select_expert', { 'expert_name': expert.name });
-      };
-
       document.getElementById("result-display").style.display = "block";
     }
   </script>
